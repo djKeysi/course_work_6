@@ -7,7 +7,7 @@ class ClientServices(models.Model):
     surname = models.CharField(max_length=50, verbose_name='фамилия')
     name = models.CharField(max_length=50, verbose_name='имя')
     last_name = models.CharField(max_length=50, verbose_name='отчество')
-    comment = models.TextField(max_length=200, verbose_name='комментарий')
+    comment = models.TextField(max_length=200, **NULLABLE, verbose_name='комментарий')
 
     def __str__(self):
         return f'{self.name}{self.surname}{self.last_name}'
@@ -16,29 +16,29 @@ class ClientServices(models.Model):
         verbose_name_plural = 'Клиенты сервисов'
 
 class MailingSetting(models.Model):
-    time_mailing= models.DateTimeField(auto_now_add=True, blank=True, verbose_name='время рассылки')
+
 
     client = models.ManyToManyField(ClientServices)
     #должны менятся автоматически чоисес необязателен
     STATUS_MAILING = (
-        ('created', 'создана'),
-        ('launched', 'запущена'),
-        ('completed', 'завершена'),
+        ('создана','создана'),
+        ('запущена','запущена'),
+        ('завершена','завершена'),
     )
-    status_mailing = models.CharField(max_length=1, choices=STATUS_MAILING,verbose_name='статус рассылки')
+    status_mailing = models.CharField(max_length=10, choices=STATUS_MAILING,verbose_name='статус рассылки')
 
-    # PEREODICITY = (
-    #     ('one_day', 'раз в день'),
-    #     ('one_week', 'раз в неделю'),
-    #     ('one_month', 'раз в месяц'),
-    # )
-    # periodicity  = models.CharField(max_length=1, choices=PEREODICITY,verbose_name='переодичность')
-    class Period(models.TextChoices):
-        DAILY = 'раз в день'
-        MONTHLY = 'раз в месяц'
-        WEEKLY = 'раз в неделю'
+    time_mailing= models.DateTimeField(auto_now_add=True, verbose_name='время рассылки')
 
-    periodicity = models.CharField(max_length=1,choices=Period.choices,default=Period.DAILY,verbose_name='переодичность')
+    PERIOD=(
+        ('раз в день', 'раз в день'),
+        ('раз в месяц', 'раз в месяц'),
+        ('раз в неделю', 'раз в неделю'),
+        # DAILY = 'раз в день'
+        # MONTHLY = 'раз в месяц'
+        # WEEKLY = 'раз в неделю'
+    )
+
+    periodicity = models.CharField(max_length=15,choices=PERIOD,verbose_name='переодичность')
 
     def __str__(self):
         return f'{self.status_mailing}'
@@ -63,7 +63,8 @@ class LogMailing(models.Model):
     mailing_settings = models.ForeignKey(MailingSetting, on_delete=models.CASCADE)
     status = models.CharField(max_length=150, verbose_name='статус попытки')
     otvet = models.CharField(max_length=150, verbose_name='ответ почтового сервера, если он был.')
-    #дата и время последней попытки
+
+    attempts = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='дата и время последней попытки')
 
     def __str__(self):
         return f'{self.mailing_settings}'
