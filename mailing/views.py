@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, UpdateView
 
-from mailing.forms import ClientServicesForm
-from mailing.models import ClientServices
+from mailing.forms import ClientServicesForm, MailingSettingForm
+from mailing.models import ClientServices, MailingSetting
 
 
 class IndexView(TemplateView):
@@ -23,4 +23,9 @@ class ClientServicesCreateView(CreateView):
 class ClientServicesUpdateView(UpdateView):
     model = ClientServices
     form_class = ClientServicesForm
+    success_url = reverse_lazy('mailing:index')
+
+class MailingSettingCreateView(CreateView):
+    model = MailingSetting
+    form_class = MailingSettingForm
     success_url = reverse_lazy('mailing:index')

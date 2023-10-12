@@ -18,7 +18,7 @@ class ClientServices(models.Model):
 class MailingSetting(models.Model):
 
 
-    client = models.ManyToManyField(ClientServices)
+    client = models.ManyToManyField(ClientServices,verbose_name='клиенты')
     #должны менятся автоматически чоисес необязателен
     STATUS_MAILING = (
         ('создана','создана'),
