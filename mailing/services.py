@@ -16,3 +16,25 @@ scheduler.add_job(job, 'cron', month='1-12', day_of_week='0', hour=19, minute=59
 scheduler.add_job(job, 'cron', year='2023', day_of_week='0', hour=19, minute=59)
 
 scheduler.start()
+
+# круд для клиента чтобы пользователь мог их добавлять
+#
+# круд для сообщений которые мы можем прикреплять к рассылке
+# везде круд кроме логов
+#
+#
+# для логов лист в момет отправки рассылки
+#
+#
+# креате
+# try:
+# send_mail(...)
+# Log.object.create(status='успешно')
+# print(все супер)
+# except smtplib.SMTPException as error:
+# Log.object.create(status='fail',service_response=error)
+#
+#
+# {% for clt in object.client.all %}
+#
+# мы не к сообщению привязываем рассылку а к сообщению рассылку
