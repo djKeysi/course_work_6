@@ -16,8 +16,6 @@ class ClientServices(models.Model):
         verbose_name_plural = 'Клиенты сервисов'
 
 class MailingSetting(models.Model):
-
-
     client = models.ManyToManyField(ClientServices,verbose_name='клиенты')
     #должны менятся автоматически чоисес необязателен
     STATUS_MAILING = (
@@ -27,6 +25,7 @@ class MailingSetting(models.Model):
     )
     status_mailing = models.CharField(max_length=10, choices=STATUS_MAILING,verbose_name='статус рассылки')
 
+        # время начало и конец
     time_mailing= models.DateTimeField(auto_now_add=True, verbose_name='время рассылки')
 
     PERIOD=(
@@ -48,7 +47,7 @@ class MailingSetting(models.Model):
         verbose_name_plural = 'Рассылки'
 
 class Message(models.Model):
-    mailing_setting = models.ForeignKey(MailingSetting, on_delete = models.CASCADE)
+    mailing_setting = models.OneToOneField(MailingSetting, on_delete = models.CASCADE)
     letter_message =  models.CharField(max_length=100, verbose_name='тема письма')
     body_message =  models.TextField(max_length=200, verbose_name='тело письма')
 
@@ -61,7 +60,8 @@ class Message(models.Model):
 
 class LogMailing(models.Model):
     mailing_settings = models.ForeignKey(MailingSetting, on_delete=models.CASCADE)
-    status = models.CharField(max_length=150, verbose_name='статус попытки')
+    client = models.ForeignKey(ClientServices, on_delete=models.CASCADE)
+    status = models.CharField(max_length=150, verbose_name='статус попытки')#ok  и fail
     otvet = models.CharField(max_length=150, verbose_name='ответ почтового сервера, если он был.')
 
     attempts = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='дата и время последней попытки')
