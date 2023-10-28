@@ -2,6 +2,8 @@
 
 {% block content %}
 
+
+
     <div class="container">
         <div class="card-deck mb-3 text-center">
             <div class="card mb-4 box-shadow">
@@ -18,17 +20,32 @@
                     </ul>
                     <a href="{% url 'mailing:client_create' %}" class="btn btn-lg btn-block btn-outline-primary">
                         Создать клиента</a>
-                    <ul class="tags-list">
-                        {% for t in posts %}
-                            <li> {{ t.client }}</li>
-                        {% endfor %}
-                    </ul>
+                     <a href="{% url 'mailing:update_delete_clients' %}" class="btn btn-lg btn-block btn-outline-primary">
+                        Редактирование клиентов</a>
 
 
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Удаление клиента</button>
+
+                      <li> {{ title }}</li>
+
+
+
 
                 </div>
             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             <div class="card mb-4 box-shadow">

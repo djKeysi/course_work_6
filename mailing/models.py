@@ -3,14 +3,16 @@ from django.db import models
 
 NULLABLE = {'blank': True, 'null': True}
 class ClientServices(models.Model):
-    email = models.EmailField(max_length=50, verbose_name='контактный email')
-    surname = models.CharField(max_length=50, verbose_name='фамилия')
-    name = models.CharField(max_length=50, verbose_name='имя')
-    last_name = models.CharField(max_length=50, verbose_name='отчество')
+
+    # surname = models.CharField(max_length=50, verbose_name='фамилия')
+    # name = models.CharField(max_length=50, verbose_name='имя')
+    # last_name = models.CharField(max_length=50, verbose_name='отчество')
+    full_name = models.CharField(max_length=50,blank=True, verbose_name='ФИО')
+    email = models.EmailField(max_length=50,blank=True, verbose_name='контактный email')
     comment = models.TextField(max_length=200, **NULLABLE, verbose_name='комментарий')
 
     def __str__(self):
-        return f'{self.name}{self.surname}{self.last_name}'
+        return f'{self.full_name}'
     class Meta:
         verbose_name = 'Клиент сервиса'
         verbose_name_plural = 'Клиенты сервисов'
@@ -46,32 +48,32 @@ class MailingSetting(models.Model):
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
 
-class Message(models.Model):
-    mailing_setting = models.OneToOneField(MailingSetting, on_delete = models.CASCADE)
-    letter_message =  models.CharField(max_length=100, verbose_name='тема письма')
-    body_message =  models.TextField(max_length=200, verbose_name='тело письма')
-
-    def __str__(self):
-        return f'{self.mailing_setting}'
-
-    class Meta:
-        verbose_name = 'Сообщение'
-        verbose_name_plural = 'Сообщения'
-
-class LogMailing(models.Model):
-    mailing_settings = models.ForeignKey(MailingSetting, on_delete=models.CASCADE)
-    client = models.ForeignKey(ClientServices, on_delete=models.CASCADE)
-    status = models.CharField(max_length=150, verbose_name='статус попытки')#ok  и fail
-    otvet = models.CharField(max_length=150, verbose_name='ответ почтового сервера, если он был.')
-
-    attempts = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='дата и время последней попытки')
-
-    def __str__(self):
-        return f'{self.mailing_settings}'
-
-    class Meta:
-        verbose_name = 'Лог'
-        verbose_name_plural = 'Логи'
+# class Message(models.Model):
+#     mailing_setting = models.OneToOneField(MailingSetting, on_delete = models.CASCADE)
+#     letter_message =  models.CharField(max_length=100, verbose_name='тема письма')
+#     body_message =  models.TextField(max_length=200, verbose_name='тело письма')
+#
+#     def __str__(self):
+#         return f'{self.mailing_setting}'
+#
+#     class Meta:
+#         verbose_name = 'Сообщение'
+#         verbose_name_plural = 'Сообщения'
+#
+# class LogMailing(models.Model):
+#     mailing_settings = models.ForeignKey(MailingSetting, on_delete=models.CASCADE)
+#     client = models.ForeignKey(ClientServices, on_delete=models.CASCADE)
+#     status = models.CharField(max_length=150, verbose_name='статус попытки')#ok  и fail
+#     otvet = models.CharField(max_length=150, verbose_name='ответ почтового сервера, если он был.')
+#
+#     attempts = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='дата и время последней попытки')
+#
+#     def __str__(self):
+#         return f'{self.mailing_settings}'
+#
+#     class Meta:
+#         verbose_name = 'Лог'
+#         verbose_name_plural = 'Логи'
 
 
 
