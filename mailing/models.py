@@ -49,12 +49,12 @@ class MailingSetting(models.Model):
         verbose_name_plural = 'Рассылки'
 
 class Message(models.Model):
-    mailing_setting = models.OneToOneField(MailingSetting, on_delete = models.CASCADE, verbose_name='Рассылка')
+    mailing_setting = models.ForeignKey(MailingSetting, on_delete = models.CASCADE, verbose_name='Рассылка')
     letter_message =  models.CharField(max_length=100, verbose_name='тема письма')
     body_message =  models.TextField(max_length=200, verbose_name='тело письма')
 
     def __str__(self):
-        return f'{self.mailing_setting}'
+        return f'{self.mailing_setting.time_mailing}'
 
     class Meta:
         verbose_name = 'Сообщение'
