@@ -59,21 +59,25 @@ class Message(models.Model):
     class Meta:
         verbose_name = 'Сообщение'
         verbose_name_plural = 'Сообщения'
-#
-# class LogMailing(models.Model):
-#     mailing_settings = models.ForeignKey(MailingSetting, on_delete=models.CASCADE)
-#     client = models.ForeignKey(ClientServices, on_delete=models.CASCADE)
-#     status = models.CharField(max_length=150, verbose_name='статус попытки')#ok  и fail
-#     otvet = models.CharField(max_length=150, verbose_name='ответ почтового сервера, если он был.')
-#
-#     attempts = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='дата и время последней попытки')
-#
-#     def __str__(self):
-#         return f'{self.mailing_settings}'
-#
-#     class Meta:
-#         verbose_name = 'Лог'
-#         verbose_name_plural = 'Логи'
+
+class LogMailing(models.Model):
+    mailing_settings = models.ForeignKey(MailingSetting, on_delete=models.CASCADE)
+    client = models.ForeignKey(ClientServices, on_delete=models.CASCADE)
+    STATUS_LOG = (
+        ('OK', 'OK'),
+        ('Fail', 'Fail'),
+    )
+    status = models.CharField(max_length=150,choices=STATUS_LOG, verbose_name='статус попытки')
+    response_mail_server = models.CharField(max_length=150, verbose_name='ответ почтового сервера, если он был.')
+
+    attempts = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='дата и время последней попытки')
+
+    def __str__(self):
+        return f'{self.mailing_settings}'
+
+    class Meta:
+        verbose_name = 'Лог'
+        verbose_name_plural = 'Логи'
 
 
 

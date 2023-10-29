@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, UpdateView, ListView, DetailView, DeleteView
 
 from mailing.forms import ClientServicesForm, MailingSettingForm, MessageForm
-from mailing.models import ClientServices, MailingSetting, Message
+from mailing.models import ClientServices, MailingSetting, Message, LogMailing
 
 
 class IndexView(TemplateView):
@@ -76,4 +76,32 @@ class MessageCreateView(CreateView):
     form_class = MessageForm
     success_url = reverse_lazy('mailing:index')
 
+class MessageListView(ListView):
+    model = Message
+    template_name = 'mailing/update_delete_message.html'
+    message = Message.objects.all()
+
+    extra_context = {
+            'message': message,
+        }
+
+class MessageUpdateView(UpdateView):
+    model = Message
+    form_class = MessageForm
+    success_url = reverse_lazy('mailing:index')
+
+class MessageDeleteView(DeleteView):
+    model = Message
+    form_class = MessageForm
+    success_url = reverse_lazy('mailing:index')
+
+class LogListView(ListView):
+    model = LogMailing
+    template_name = 'mailing/logs.html'
+
+    logs = LogMailing.objects.all()
+
+    extra_context = {
+       'logs': logs,
+    }
 

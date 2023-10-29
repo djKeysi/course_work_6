@@ -38,6 +38,8 @@
                 <div class="card-body">
                      <a href="{% url 'mailing:create_message' %}" class="btn btn-lg btn-block btn-outline-primary">
                         Создать сообщение</a>
+                    <a href="{% url 'mailing:update_delete_message' %}" class="btn btn-lg btn-block btn-outline-primary">
+                        Редактировать сообщение</a>
                 </div>
 
             </div>
@@ -47,14 +49,9 @@
                     <h4 class="my-0 font-weight-normal">Логи</h4>
                 </div>
                 <div class="card-body">
-                    <h1 class="card-title pricing-card-title">$29 <small class="text-muted">/ mo</small></h1>
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>30 users included</li>
-                        <li>15 GB of storage</li>
-                        <li>Phone and email support</li>
-                        <li>Help center access</li>
-                    </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-primary">Просмотр логов</button>
+
+                     <a href="{% url 'mailing:logs' %}" class="btn btn-lg btn-block btn-outline-primary">
+                        Просмотр логов</a>
                 </div>
             </div>
         </div>

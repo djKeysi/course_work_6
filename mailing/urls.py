@@ -24,6 +24,13 @@ urlpatterns = [
 
 
     path('сreate_message/', views.MessageCreateView.as_view(), name='create_message'),
+    path('update_delete_message/', views.MessageListView.as_view(), name='update_delete_message'),
+    path('update_message/<int:pk>/', views.MessageUpdateView.as_view(), name='update_message'),
+    path('delete_message/<int:pk>/', views.MessageDeleteView.as_view(), name='delete_message'),
+
+    path('logs/', views.LogListView.as_view(), name='logs'),
+
+
 
 
 
