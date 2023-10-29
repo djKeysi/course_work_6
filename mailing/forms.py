@@ -1,6 +1,6 @@
 from django import forms
 
-from mailing.models import ClientServices, MailingSetting#, Message
+from mailing.models import ClientServices, MailingSetting, Message
 
 
 class ClientServicesForm(forms.ModelForm):
@@ -14,11 +14,13 @@ class ClientServicesForm(forms.ModelForm):
 
 
 class MailingSettingForm(forms.ModelForm):
+
     class Meta:
         model = MailingSetting
-        fields = ['client']
+        fields = '__all__'
         widgets = {
             'client': forms.CheckboxSelectMultiple,
+            #'time_mailing': forms.DateInput(attrs={'class': 'datepicker'}),
         }
 
     # def __init__(self, *args, **kwargs):
@@ -26,8 +28,8 @@ class MailingSettingForm(forms.ModelForm):
     #     super(MailingSettingForm, self).__init__(*args, **kwargs)
     #     self.fields['client'].queryset = user.client_set.all()
 
-# class MessageForm(forms.ModelForm):
-#     class Meta:
-#         model = Message
-#         fields = ['letter_message', 'body_message']
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = '__all__'
 

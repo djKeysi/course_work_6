@@ -28,7 +28,7 @@ class MailingSetting(models.Model):
     status_mailing = models.CharField(max_length=10, choices=STATUS_MAILING,verbose_name='статус рассылки')
 
         # время начало и конец
-    time_mailing= models.DateTimeField(auto_now_add=True, verbose_name='время рассылки')
+    time_mailing= models.DateTimeField(verbose_name='время рассылки')
 
     PERIOD=(
         ('раз в день', 'раз в день'),
@@ -42,23 +42,23 @@ class MailingSetting(models.Model):
     periodicity = models.CharField(max_length=15,choices=PERIOD,verbose_name='переодичность')
 
     def __str__(self):
-        return f'{self.status_mailing}'
+        return f'{self.client}'
 
     class Meta:
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
 
-# class Message(models.Model):
-#     mailing_setting = models.OneToOneField(MailingSetting, on_delete = models.CASCADE)
-#     letter_message =  models.CharField(max_length=100, verbose_name='тема письма')
-#     body_message =  models.TextField(max_length=200, verbose_name='тело письма')
-#
-#     def __str__(self):
-#         return f'{self.mailing_setting}'
-#
-#     class Meta:
-#         verbose_name = 'Сообщение'
-#         verbose_name_plural = 'Сообщения'
+class Message(models.Model):
+    mailing_setting = models.OneToOneField(MailingSetting, on_delete = models.CASCADE, verbose_name='Рассылка')
+    letter_message =  models.CharField(max_length=100, verbose_name='тема письма')
+    body_message =  models.TextField(max_length=200, verbose_name='тело письма')
+
+    def __str__(self):
+        return f'{self.mailing_setting}'
+
+    class Meta:
+        verbose_name = 'Сообщение'
+        verbose_name_plural = 'Сообщения'
 #
 # class LogMailing(models.Model):
 #     mailing_settings = models.ForeignKey(MailingSetting, on_delete=models.CASCADE)

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from mailing.models import ClientServices, MailingSetting#, Message, LogMailing
+from mailing.models import ClientServices, MailingSetting, Message#, LogMailing
 
 
 @admin.register(ClientServices)
@@ -13,9 +13,9 @@ class ClientServicesAdmin(admin.ModelAdmin):
 class MailingSettingAdmin(admin.ModelAdmin):
     list_display = ('time_mailing', 'status_mailing', 'periodicity')
 
-# @admin.register(Message)
-# class MessageAdmin(admin.ModelAdmin):
-#     list_display = ('mailing_setting', 'letter_message', 'body_message')
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('mailing_setting', 'letter_message', 'body_message')
 #     #list_display_links = ('id', 'client')
 #
 #

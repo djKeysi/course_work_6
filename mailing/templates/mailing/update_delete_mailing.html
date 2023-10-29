@@ -1,15 +1,16 @@
 {% extends 'mailing/base.html' %}
 {% block content %}
     <ul class="list-articles">
-        {% for object in clients %}
+        {% for object in mailing %}
             <div class="card">
                 <div class="card-body">
-                    <a href="{% url 'mailing:client_update' object.pk %}"
+                    <a href="{% url 'mailing:update_mailing' object.pk %}"
                        class="btn btn-lg btn-block btn-outline-primary"> Редактировать
-                        клиента {{ object.full_name }}</a>
+                        рассылку {{ object.time_mailing }}</a>
                     <p></p>
-                    <a class="btn btn-outline-danger float-right" href="{% url 'mailing:delete_client' object.pk %}">Удалить
-                        клиента</a>
+
+                    <a class="btn btn-outline-danger float-right" href="{% url 'mailing:delete_mailing' object.pk %}">Удалить
+                        рассылку</a>
                 </div>
             </div>
 

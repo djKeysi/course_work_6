@@ -9,12 +9,12 @@
         <div class="col-6">
             <div class="card">
                 <div class="card-header">
-                    Удаление клиента
+                    Удаление рассылки
                 </div>
 
                 <div class="card-body">
                     {% csrf_token %}
-                    <p> Действительно хотите удалить клиента ? {{ object.full_name }} </p>
+                    <p> Действительно хотите удалить рассылку ? {{ object.time_mailing }} </p>
                     <button type="submit" class="btn btn-outline-danger">
                         Удалить
                     </button>
