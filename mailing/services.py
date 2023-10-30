@@ -5,6 +5,14 @@ from django.core.mail import send_mail
 
 from mailing.models import MailingSetting, LogMailing
 
+from apscheduler.schedulers.background import BackgroundScheduler
+
+
+
+def start():
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(send_mailings, 'interval', seconds=15)
+    scheduler.start()  #как вызвать в проекте ?
 
 def send_mailings():
     current_datetime = datetime.now()
