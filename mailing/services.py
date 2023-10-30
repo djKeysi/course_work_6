@@ -1,40 +1,59 @@
+import datetime
 
-from apscheduler.schedulers.blocking import BlockingScheduler
-from datetime import datetime
+from django.conf import settings
+from django.core.mail import send_mail
+
+from mailing.models import MailingSetting, LogMailing
 
 
-def job():
-    print('Hello APScheduler')
+def send_mailings():
+    current_datetime = datetime.now()
+    for mailing in MailingSetting.objects.filter(status_mailing='создана'):
+        is_mailing = False
+        emails = [client.email for client in mailing.client.all()]
+        month_start = mailing.start_time.month
+        day_start = mailing.start_time.day
+        hour_start = mailing.start_time.hour
+        minut_start = mailing.start_time.minute
+        attempt_status = 'Успешно'
+        server_response = 'Сообщение доставлено'
+        messages = mailing.message_set.all()
 
+        if mailing.time_mailing == 'раз в день' and day_start == current_datetime.day \
+                and current_datetime.hour == hour_start and current_datetime.minute == minut_start:
+            mailing.start_time = mailing.start_time + datetime.timedelta(days=1)
+            is_mailing = True
 
-scheduler = BlockingScheduler()
-#раз в день в 19-59
-scheduler.add_job(job, 'cron', day_of_week='0-6', hour=19, minute=59)
-#раз в месяц в понедельник в 19-59
-scheduler.add_job(job, 'cron', month='1-12', day_of_week='0', hour=19, minute=59)
-#раз в год в понедельник в 19-59
-scheduler.add_job(job, 'cron', year='2023', day_of_week='0', hour=19, minute=59)
+        elif mailing.time_mailing == 'раз в месяц' and day_start == current_datetime.day \
+                and current_datetime.hour == hour_start and current_datetime.minute == minut_start:
+            mailing.start_time = mailing.start_time + datetime.timedelta(days=7)
+            is_mailing = True
 
-scheduler.start()
+        elif mailing.time_mailing == 'раз в неделю' and month_start == current_datetime.month \
+                and day_start == current_datetime.day \
+                and current_datetime.hour == hour_start and current_datetime.minute == minut_start:
+            mailing.start_time = mailing.start_time + datetime.timedelta(days=30)
+            is_mailing = True
 
-# круд для клиента чтобы пользователь мог их добавлять
-#
-# круд для сообщений которые мы можем прикреплять к рассылке
-# везде круд кроме логов
-#
-#
-# для логов лист в момет отправки рассылки
-#
-#
-# креате
-# try:
-# send_mail(...)
-# Log.object.create(status='успешно')
-# print(все супер)
-# except smtplib.SMTPException as error:
-# Log.object.create(status='fail',service_response=error)
-#
-#
-# {% for clt in object.client.all %}
-#
-# мы не к сообщению привязываем рассылку а к сообщению рассылку
+        if is_mailing:
+            mailing.save()
+            for message in messages:
+                try:
+
+                    send_mail(
+                        subject=message.subject,
+                        message=message.body,
+                        from_email=settings.EMAIL_HOST_USER,
+                        recipient_list=emails
+                    )
+
+                except Exception as e:
+
+                    attempt_status = 'error'
+                    server_response = str(e)
+
+                finally:
+
+                    LogMailing.objects.create(status=message,
+                                       attempts=attempt_status,
+                                       response_mail_server=server_response)

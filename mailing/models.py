@@ -68,7 +68,7 @@ class LogMailing(models.Model):
         ('Fail', 'Fail'),
     )
     status = models.CharField(max_length=150,choices=STATUS_LOG, verbose_name='статус попытки')
-    response_mail_server = models.CharField(max_length=150, verbose_name='ответ почтового сервера, если он был.')
+    response_mail_server = models.CharField(max_length=150, verbose_name='ответ почтового сервера')
 
     attempts = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='дата и время последней попытки')
 
