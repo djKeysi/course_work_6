@@ -54,12 +54,14 @@ class MailingSettingCreateView(CreateView):
 
 class MailingSettingListView(ListView):
     model = MailingSetting
-    template_name = 'mailing/update_delete_mailing.html'
-    mailing = MailingSetting.objects.all()
 
+    mailing = MailingSetting.objects.all()
+    template_name = 'mailing/update_delete_mailing.html'
     extra_context = {
             'mailing': mailing,
         }
+
+
 class MailingSettingUpdateView(UpdateView):
     model = MailingSetting
     form_class = MailingSettingForm
@@ -67,11 +69,16 @@ class MailingSettingUpdateView(UpdateView):
 
 class MailingSettingDeleteView(DeleteView):
     model = MailingSetting
-    form_class = MailingSettingForm
+    #form_class = MailingSettingForm
+    #template_name = 'mailing/mailingsetting_confirm_delete.html'
     success_url = reverse_lazy('mailing:index')
 
 
+
+
+
 class MessageCreateView(CreateView):
+
     model = Message
     form_class = MessageForm
     success_url = reverse_lazy('mailing:index')

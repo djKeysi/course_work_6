@@ -9,7 +9,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 
 
-def start():
+def starting():
     scheduler = BackgroundScheduler()
     scheduler.add_job(send_mailings, 'interval', seconds=15)
     scheduler.start()  #как вызвать в проекте ?
